@@ -41,8 +41,15 @@ environment {
         
         stage("Deploy to kubernete"){
              steps {
-             sshagent(['34963f0b-2117-4b20-84f8-df4cbae1baa3']) {
-                // some block
+                sshagent(['sshKubernete']) {
+                        sh 'scp -r -o StrictHostKeyChecking=no deployment.yaml username@10.96.0.1:/path'
+                script{
+                try{
+                        sh 'username@10.96.0.1:/path kubectl apply -f .'
+                }catch(error)
+                        {
+                                sh 'username@10.96.0.1:/path kubectl create -f .'
+                        }
                 }
                 }
                 }
