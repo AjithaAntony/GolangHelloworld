@@ -14,7 +14,7 @@ environment {
     stages {
         stage('CheckoutSCM') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [[$class: 'LocalBranch', localBranch: 'Golangbranch']], userRemoteConfigs: [[url: 'https://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@github.com/AjithaAntony/HelloGolang.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [[$class: 'LocalBranch', localBranch: 'Golangbranch']], userRemoteConfigs: [[url: 'https://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@github.com/AjithaAntony/GolangHelloworld.git']]])
             }
         }
         
