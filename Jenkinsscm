@@ -6,6 +6,7 @@ environment {
         registryCredential='Dockerhub_Cred'
 
         dockerImage = '' 
+        namespace = 'development'
 
     }
     agent any
@@ -41,17 +42,11 @@ environment {
         
         stage("Deploy to kubernete"){
              steps {
-                sshagent(['sshKubernete']) {
-                        sh 'scp -r -o StrictHostKeyChecking=no deployment.yaml username@10.96.0.1:/path'
-                script{
-                try{
-                        sh 'username@10.96.0.1:/path kubectl apply -f .'
-                }catch(error)
-                        {
-                                sh 'username@10.96.0.1:/path kubectl create -f .'
-                        }
-                }
-                }
+                     sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
+           //Update the imagetag to the latest version
+                   sh("sed -i.bak '{dockerImage}' ./*.yaml")
+                   //Create or update resources
+           sh("kubectl --namespace=${namespace} apply -f deployment.yaml")
                 }
                 }
 
