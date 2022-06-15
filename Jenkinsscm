@@ -42,7 +42,11 @@ environment {
         
         stage("Deploy to kubernete"){
              steps {
-                     sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
+             
+             sshagent(['sshKubernete']) {
+                        // some block
+                }
+                    // sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
            //Update the imagetag to the latest version
                   // sh("sed -i.bak '{dockerImage}' ./*.yaml")
                    //Create or update resources
